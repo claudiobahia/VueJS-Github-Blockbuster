@@ -12,7 +12,7 @@
       <v-list shaped>
         <v-subheader>OPTIONS MENU</v-subheader>
         <v-list-item-group>
-          <v-list-item v-for="(item, i) in items" :key="i" :to="item.route">
+          <v-list-item @click="drawer = !drawer" v-for="(item, i) in items" :key="i" :to="item.route">
             <v-list-item-icon>
               <v-icon v-text="item.icon" />
             </v-list-item-icon>
