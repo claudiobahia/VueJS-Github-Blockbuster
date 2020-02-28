@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <v-app-bar app dark class="indigo">
+    <v-app-bar min-width="700px" app dark class="indigo">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="headline text-uppercase">
         <span>Bem vindo!</span>
