@@ -26,15 +26,26 @@
 <script>
 export default {
   name: "Home",
+  computed: {
+    cart_size: function() {
+      alert(this.cart)
+      return this.cart.length
+    }
+  },
   methods: {
     addCart: function(item_id) {
-      this.items[item_id-1].cart_color = this.items[item_id-1].cart_color == 'indigo' ? 'green' : 'indigo';
-    },
-    checkIsCart: function() {}
+      if (this.items[item_id - 1].cart_color == "indigo") {
+        this.cart.push(this.items[item_id-1]);
+        this.items[item_id - 1].cart_color = "green";
+      } else {
+        this.cart.pop(this.items[item_id-1]);
+        this.items[item_id - 1].cart_color = "indigo";
+      }
+    }
   },
   data() {
     return {
-      cart_size: this.checkIsCart(),
+      cart: [],
       items: [
         {
           id: 1,
