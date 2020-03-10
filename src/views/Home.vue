@@ -6,14 +6,14 @@
       <v-icon right x-large>mdi-cart-outline</v-icon>
     </v-chip>
     <v-row>
-      <v-col v-for="item in items" :key="item" cols="12" md="3" sm="4" class="my-2">
+      <v-col v-for="item in items" :key="item.id" cols="12" md="3" sm="4" class="my-2">
         <v-card min-width="200" class="mx-auto" width="250">
           <v-img :src="item.url" height="300"></v-img>
           <v-card-text>{{ item.text }}</v-card-text>
+          <v-rating readonly :value="item.rating" dense color="orange" background-color="orange" hover class="mr-2"/>
           <v-card-actions>
-            <v-btn text color="indigo accent-4" :href="item.link">Ler mais</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn icon v-on:click="addCart(item.id)">
+            <v-btn text v-on:click="addCart(item.id)" :color="item.cart_color">
+              Alugar
               <v-icon :color="item.cart_color">mdi-cart</v-icon>
             </v-btn>
           </v-card-actions>
@@ -28,17 +28,16 @@ export default {
   name: "Home",
   computed: {
     cart_size: function() {
-      alert(this.cart)
-      return this.cart.length
+      return this.cart.length;
     }
   },
   methods: {
     addCart: function(item_id) {
       if (this.items[item_id - 1].cart_color == "indigo") {
-        this.cart.push(this.items[item_id-1]);
+        this.cart.push(this.items[item_id - 1]);
         this.items[item_id - 1].cart_color = "green";
       } else {
-        this.cart.pop(this.items[item_id-1]);
+        this.cart.pop(this.items[item_id - 1]);
         this.items[item_id - 1].cart_color = "indigo";
       }
     }
@@ -53,7 +52,8 @@ export default {
             "Visit ten places on our planet that are undergoing the biggest changes today.",
           url: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
           link: "/",
-          cart_color: "indigo"
+          cart_color: "indigo",
+          rating:1
         },
         {
           id: 2,
@@ -61,7 +61,8 @@ export default {
             "Visit ten places on our planet that are undergoing the biggest changes today.",
           url: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
           link: "/",
-          cart_color: "indigo"
+          cart_color: "indigo",
+          rating:2
         },
         {
           id: 3,
@@ -69,7 +70,8 @@ export default {
             "Visit ten places on our planet that are undergoing the biggest changes today.",
           url: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
           link: "/",
-          cart_color: "indigo"
+          cart_color: "indigo",
+          rating:3
         },
         {
           id: 4,
@@ -77,7 +79,8 @@ export default {
             "Visit ten places on our planet that are undergoing the biggest changes today.",
           url: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
           link: "/",
-          cart_color: "indigo"
+          cart_color: "indigo",
+          rating:4
         },
         {
           id: 5,
@@ -85,7 +88,17 @@ export default {
             "Visit ten places on our planet that are undergoing the biggest changes today.",
           url: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
           link: "/",
-          cart_color: "indigo"
+          cart_color: "indigo",
+          rating:5
+        },
+        {
+          id: 6,
+          text:
+            "Visit ten places on our planet that are undergoing the biggest changes today.",
+          url: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
+          link: "/",
+          cart_color: "indigo",
+          rating:0
         }
       ]
     };

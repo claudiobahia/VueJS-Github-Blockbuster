@@ -1,153 +1,108 @@
 <template>
   <div class="cart">
-    <v-form v-model="valid">
-      <v-container>
-        <v-row>
-          <v-col cols="12" md="4">
-            <v-text-field
-              v-model="firstname"
-              :rules="rule"
-              :counter="10"
-              label="Primeiro Nome"
-              required
-            />
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-text-field
-              v-model="lastname"
-              :rules="rule"
-              :counter="10"
-              label="Sobrenome"
-              required
-            />
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-text-field v-model="cep" :rules="rule" :counter="10" label="CEP" required />
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-text-field v-model="endereco" :rules="rule" :counter="10" label="Endereço" required />
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-text-field v-model="cidade" :rules="rule" :counter="10" label="Cidade" required />
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-text-field v-model="estado" :rules="rule" :counter="10" label="Estado" required />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-switch v-model="isPagoEntrega" class="my-2" label="Pago na entrega" />
-          </v-col>
-          <v-col cols="12">
-            <v-radio-group v-model="radioGroup" mandatory>
-              <v-radio label="Manhã" value="manha" />
-              <v-radio label="Tarde" value="tarde" />
-              <v-radio label="Noite" value="noite" />
-            </v-radio-group>
-          </v-col>
-          <v-col cols="12" align="center">
-            <v-btn :loading="!valid" rounded color="primary" dark>Finalizar pedido</v-btn>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col
-            cols="12"
-            md="4"
-            v-for="item in funcoes"
-            :key="item.nome"
-          >{{item.nome}}: {{item.func}}</v-col>
-        </v-row>
-      </v-container>
-    </v-form>
+    <v-chip class="ma-5" color="indigo" outlined pill label large>
+      Carrinho: {{cart_size}}
+      <v-icon right x-large>mdi-cart-outline</v-icon>
+    </v-chip>
+    <v-chip class="ma-5" color="indigo" outlined pill label large to="/cart/close-buy">
+      <!-- params: { id: filme.id }  -->
+      Finalizar
+      <v-icon right size="25">mdi-check-outline</v-icon>
+    </v-chip>
+    <v-row>
+      <v-col v-for="item in items" :key="item.id" cols="12" class="my-2">
+        <v-card class="my-1" max-width="100%" outlined>
+          <v-list-item three-line>
+            <v-list-item-avatar tile min-width="150" min-height="210" color="grey">
+              <v-img :src="item.url" height="300"></v-img>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-subtitle class="headline grey--text text--darken-3">{{item.text}}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-card-actions align="start">
+            <v-btn x-large text v-on:click="removeCart(item.id)" :color="item.cart_color">
+              Remover
+              <v-icon :color="item.cart_color">mdi-delete</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
 export default {
+  computed: {
+    cart_size: function() {
+      return this.items.length;
+    }
+  },
+  methods: { 
+    removeCart: function(item_id) {
+      this.items.pop(this.items[item_id - 1]);
+    }
+  },
   data() {
     return {
-      isPagoEntrega: true,
-      radioGroup: "tarde",
-      firstname: "",
-      lastname: "",
-      cep: "",
-      endereco: "",
-      cidade: "",
-      estado: "",
-      valid: false,
-      rule: [
-        v => !!v || "Required field",
-        v => v.length <= 10 || "Name must be less than 10 characters"
-      ],
-      funcoes: [
+      items: [
         {
-          nome: "Pago na entrega",
-          func: this.getIsPagoEntrega
+          id: 1,
+          text:
+            "Visit ten places on our planet that are undergoing the biggest changes today.",
+          url: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
+          link: "/",
+          cart_color: "indigo",
+          rating: 1
         },
         {
-          nome: "Turno de entrega",
-          func: this.radioGroup
+          id: 2,
+          text:
+            "Visit ten places on our planet that are undergoing the biggest changes today.",
+          url: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
+          link: "/",
+          cart_color: "indigo",
+          rating: 2
         },
         {
-          nome: "Primeiro nome",
-          func: this.getFistName
+          id: 3,
+          text:
+            "Visit ten places on our planet that are undergoing the biggest changes today.",
+          url: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
+          link: "/",
+          cart_color: "indigo",
+          rating: 3
         },
         {
-          nome: "Sobrenome",
-          func: this.getLastName
+          id: 4,
+          text:
+            "Visit ten places on our planet that are undergoing the biggest changes today.",
+          url: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
+          link: "/",
+          cart_color: "indigo",
+          rating: 4
         },
         {
-          nome: "CEP",
-          func: this.getCep
+          id: 5,
+          text:
+            "Visit ten places on our planet that are undergoing the biggest changes today.",
+          url: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
+          link: "/",
+          cart_color: "indigo",
+          rating: 5
         },
         {
-          nome: "Endereço",
-          func: this.getEndereco
-        },
-        {
-          nome: "Cidade",
-          func: this.getCidade
-        },
-        {
-          nome: "Estado",
-          func: this.getEstado
+          id: 6,
+          text:
+            "Visit ten places on our planet that are undergoing the biggest changes today.",
+          url: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg",
+          link: "/",
+          cart_color: "indigo",
+          rating: 0
         }
       ]
     };
-  },
-  computed: {
-    getIsPagoEntrega: function() {
-      console.log(this)
-      return this.isPagoEntrega;
-    },
-
-    getRadioGroup: function() {
-      return this.radioGroup;
-    },
-
-    getFistName: function() {
-      return this.firstname;
-    },
-
-    getLastName: function() {
-      return this.lastname;
-    },
-
-    getCep: function() {
-      return this.cep;
-    },
-
-    getEndereco: function() {
-      return this.endereco;
-    },
-
-    getCidade: function() {
-      return this.cidade;
-    },
-
-    getEstado: function() {
-      return this.estado;
-    }
   }
 };
 </script>
